@@ -35,7 +35,7 @@ func StartServer() {
 	r.Handle("/get-token", GetTokenHandler).Methods("GET")
 
 	http.Handle("/", r)
-	http.ListenAndServe(":3001", nil)
+	http.ListenAndServe(":8082", nil)
 }
 
 type Response struct {
