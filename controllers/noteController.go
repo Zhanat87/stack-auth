@@ -9,7 +9,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 
 	"github.com/Zhanat87/stack-auth/common"
-	"github.com/Zhanat87/stack-auth/repositories"
+	"github.com/Zhanat87/stack-auth/data"
 	"github.com/Zhanat87/stack-auth/models"
 )
 

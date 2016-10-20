@@ -1,4 +1,4 @@
-package repositories
+package data
 
 import (
 	"golang.org/x/crypto/bcrypt"
