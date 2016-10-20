@@ -5,14 +5,14 @@ import (
 	"net/http"
 
 	"github.com/codegangsta/negroni"
-	_ "github.com/Zhanat87/stack-auth/common"
+	"github.com/Zhanat87/stack-auth/common"
 	"github.com/Zhanat87/stack-auth/routers"
 )
 
 //Entry point of the program
 func main() {
 
-	//common.StartUp() - Replaced with init method
+	common.init()
 	// Get the mux router object
 	router := routers.InitRoutes()
 	// Create a negroni instance
