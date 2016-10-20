@@ -19,7 +19,8 @@ func main() {
 		if err != nil {
 			fmt.Println("Something went wrong!")
 		}
-		fmt.Fprintf(w, string(output))
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(output)
 
 	})
 	http.ListenAndServe(":8082", nil)
