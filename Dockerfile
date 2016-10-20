@@ -13,5 +13,5 @@ RUN go get github.com/tools/godep
 RUN go install github.com/Zhanat87/stack-auth
 # Run the stack-auth command when the container starts.
 ENTRYPOINT /go/bin/stack-auth
-# Service listens on port 8081.
+# Service listens on port 8082.
 EXPOSE 8082
