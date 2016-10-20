@@ -4,6 +4,8 @@ import (
 )
 func InitRoutes() *mux.Router {
 	router := mux.NewRouter().StrictSlash(false)
+	// Routes for the index
+	router = SetIndexRoutes(router)
 	// Routes for the User entity
 	router = SetUserRoutes(router)
 	// Routes for the Task entity
