@@ -8,6 +8,7 @@ import (
 	"github.com/gorilla/mux"
 	"net/http"
 	"time"
+	"github.com/Zhanat87/stack-auth/controllers"
 )
 
 func main() {
@@ -26,10 +27,10 @@ func StartServer() {
 		SigningMethod: jwt.SigningMethodHS256,
 	})
 
-	r.HandleFunc("/ping", PingHandler)
+	r.HandleFunc("/ping", controllers.PingHandler)
 	r.Handle("/secured/ping", negroni.New(
 		negroni.HandlerFunc(jwtMiddleware.HandlerWithNext),
-		negroni.Wrap(http.HandlerFunc(SecuredPingHandler)),
+		negroni.Wrap(http.HandlerFunc(controllers.SecuredPingHandler)),
 	))
 
 	r.Handle("/get-token", GetTokenHandler).Methods("GET")
@@ -55,13 +56,7 @@ func respondJson(text string, w http.ResponseWriter) {
 	w.Write(jsonResponse)
 }
 
-func PingHandler(w http.ResponseWriter, r *http.Request) {
-	respondJson("All good. You don't need to be authenticated to call this", w)
-}
 
-func SecuredPingHandler(w http.ResponseWriter, r *http.Request) {
-	respondJson("All good. You only get this message if you're authenticated", w)
-}
 
 
 // Глобальный секретный ключ
