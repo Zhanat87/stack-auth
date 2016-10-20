@@ -11,8 +11,7 @@ import (
 
 //Entry point of the program
 func main() {
-
-	common.init()
+	common.StartUp()
 	// Get the mux router object
 	router := routers.InitRoutes()
 	// Create a negroni instance

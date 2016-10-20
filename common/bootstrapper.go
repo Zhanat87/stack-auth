@@ -1,7 +1,7 @@
 package common
 
 // init bootstrapps the application
-func init() {
+func StartUp() {
 	// Initialize AppConfig variable
 	initConfig()
 	// Initialize private/public keys for JWT authentication
