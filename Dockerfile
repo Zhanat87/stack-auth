@@ -8,10 +8,10 @@ WORKDIR /go/src/github.com/Zhanat87/stack-auth
 # Get godeps for managing and restoring dependencies
 RUN go get github.com/tools/godep
 # Restore godep dependencies
-RUN godep restore
-# Build the taskmanager command inside the container.
+# RUN godep restore
+# Build the stack-auth command inside the container.
 RUN go install github.com/Zhanat87/stack-auth
-# Run the taskmanager command when the container starts.
+# Run the stack-auth command when the container starts.
 ENTRYPOINT /go/bin/stack-auth
 # Service listens on port 8081.
 EXPOSE 8082
