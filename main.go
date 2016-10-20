@@ -7,7 +7,6 @@ import (
 	"github.com/codegangsta/negroni"
 	"github.com/Zhanat87/stack-auth/common"
 	"github.com/Zhanat87/stack-auth/routers"
-	"os"
 )
 
 //Entry point of the program
