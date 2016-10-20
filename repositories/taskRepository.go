@@ -1,13 +1,18 @@
-package data
+package repositories
+
 import (
 	"time"
-	"github.com/Zhanat87/stack-auth/models"
+
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
+
+	"github.com/Zhanat87/stack-auth/models"
 )
+
 type TaskRepository struct {
 	C *mgo.Collection
 }
+
 func (r *TaskRepository) Create(task *models.Task) error {
 	obj_id := bson.NewObjectId()
 	task.Id = obj_id
@@ -16,20 +21,21 @@ func (r *TaskRepository) Create(task *models.Task) error {
 	err := r.C.Insert(&task)
 	return err
 }
+
 func (r *TaskRepository) Update(task *models.Task) error {
 	// partial update on MogoDB
 	err := r.C.Update(bson.M{"_id": task.Id},
 		bson.M{"$set": bson.M{
-			"name": task.Name,
+			"name":        task.Name,
 			"description": task.Description,
-			"due": task.Due,
-			"status": task.Status,
-			"tags": task.Tags,
+			"due":         task.Due,
+			"status":      task.Status,
+			"tags":        task.Tags,
 		}})
 	return err
 }
 func (r *TaskRepository) Delete(id string) error {
-	err := r.C. Remove(bson.M{"_id": bson.ObjectIdHex(id)})
+	err := r.C.Remove(bson.M{"_id": bson.ObjectIdHex(id)})
 	return err
 }
 func (r *TaskRepository) GetAll() []models.Task {
@@ -54,4 +60,3 @@ func (r *TaskRepository) GetByUser(user string) []models.Task {
 	}
 	return tasks
 }
-

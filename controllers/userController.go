@@ -1,13 +1,16 @@
 package controllers
+
 import (
 	"encoding/json"
 	"net/http"
+
 	"github.com/Zhanat87/stack-auth/common"
-	"github.com/Zhanat87/stack-auth/data"
+	"github.com/Zhanat87/stack-auth/repositories"
 	"github.com/Zhanat87/stack-auth/models"
 )
+
+// Register add a new User document
 // Handler for HTTP Post - "/users/register"
-// Add a new User document
 func Register(w http.ResponseWriter, r *http.Request) {
 	var dataResource UserResource
 	// Decode the incoming User json
@@ -24,28 +27,30 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	user := &dataResource.Data
 	context := NewContext()
 	defer context.Close()
-	c := context.DbCollection("users")
-	repo := &data.UserRepository{c}
+	col := context.DbCollection("users")
+	repo := &data.UserRepository{C: col}
 	// Insert User document
 	repo.CreateUser(user)
-	// Clean-up the hashpassword to eliminate it from response
+	// Clean-up the hashpassword to eliminate it from response JSON
 	user.HashPassword = nil
-	if j, err := json.Marshal(UserResource{Data: *user}); err != nil {
-		common. DisplayAppError(
+	j, err := json.Marshal(UserResource{Data: *user})
+	if err != nil {
+		common.DisplayAppError(
 			w,
 			err,
 			"An unexpected error has occurred",
 			500,
 		)
 		return
-	} else {
-		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(http.StatusCreated)
-		w.Write(j)
 	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusCreated)
+	w.Write(j)
+
 }
+
+// Login authenticates the HTTP request with username and apssword
 // Handler for HTTP Post - "/users/login"
-// Authenticate with username and apssword
 func Login(w http.ResponseWriter, r *http.Request) {
 	var dataResource LoginResource
 	var token string
@@ -62,15 +67,16 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	}
 	loginModel := dataResource.Data
 	loginUser := models.User{
-		Email: loginModel.Email,
+		Email:    loginModel.Email,
 		Password: loginModel.Password,
 	}
 	context := NewContext()
 	defer context.Close()
-	c := context.DbCollection("users")
-	repo := &data.UserRepository{c}
+	col := context.DbCollection("users")
+	repo := &data.UserRepository{C: col}
 	// Authenticate the login user
-	if user, err := repo.Login(loginUser); err != nil {
+	user, err := repo.Login(loginUser)
+	if err != nil {
 		common.DisplayAppError(
 			w,
 			err,
@@ -78,35 +84,35 @@ func Login(w http.ResponseWriter, r *http.Request) {
 			401,
 		)
 		return
-	} else { //if login is successful
-		// Generate JWT token
-		token, err = common.GenerateJWT(user.Email, "member")
-		if err != nil {
-			common.DisplayAppError(
-				w,
-				err,
-				"Eror while generating the access token",
-				500,
-			)
-			return
-		}
-		w.Header().Set("Content-Type", "application/json")
-		user.HashPassword = nil
-		authUser := AuthUserModel{
-			User: user,
-			Token: token,
-		}
-		j, err := json.Marshal(AuthUserResource{Data: authUser})
-		if err != nil {
-			common.DisplayAppError(
-				w,
-				err,
-				"An unexpected error has occurred",
-				500,
-			)
-			return
-		}
-		w.WriteHeader(http.StatusOK)
-		w.Write(j)
 	}
+	// Generate JWT token
+	token, err = common.GenerateJWT(user.Email, "member")
+	if err != nil {
+		common.DisplayAppError(
+			w,
+			err,
+			"Eror while generating the access token",
+			500,
+		)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	// Clean-up the hashpassword to eliminate it from response JSON
+	user.HashPassword = nil
+	authUser := AuthUserModel{
+		User:  user,
+		Token: token,
+	}
+	j, err := json.Marshal(AuthUserResource{Data: authUser})
+	if err != nil {
+		common.DisplayAppError(
+			w,
+			err,
+			"An unexpected error has occurred",
+			500,
+		)
+		return
+	}
+	w.WriteHeader(http.StatusOK)
+	w.Write(j)
 }
