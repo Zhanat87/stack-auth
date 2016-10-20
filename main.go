@@ -4,7 +4,6 @@ import (
 	"github.com/gorilla/mux"
 	"net/http"
 	"github.com/Zhanat87/stack-auth/controllers"
-	"github.com/Zhanat87/stack-auth/common"
 )
 
 func main() {
