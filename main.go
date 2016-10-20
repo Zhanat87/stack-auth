@@ -21,7 +21,7 @@ func main() {
 
 	server := &http.Server{
 		//Addr:    common.AppConfig.Server,
-		Addr:    os.Getenv("STACK_AUTH_PORT_8082_TCP_ADDR"),
+		Addr:    ":" + os.Getenv("STACK_AUTH_PORT_8082_TCP_PORT"), // :8082
 		Handler: n,
 	}
 	log.Println("Listening...")
