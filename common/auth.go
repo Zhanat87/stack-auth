@@ -34,16 +34,19 @@ func initKeys() {
 // Generate JWT token
 func GenerateJWT(name, role string) (string, error) {
 	// create a signer for rsa 256
-	t := jwt.New(jwt.GetSigningMethod("RS256"))
-	// set claims for JWT token
-	t.Claims["iss"] = "admin"
-	t.Claims["UserInfo"] = struct {
-		Name string
-		Role string
-	}{name, role}
-	// set the expire time for JWT token
-	t.Claims["exp"] = time.Now().Add(time.Minute * 20).Unix()
-	tokenString, err := t.SignedString(signKey)
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"admin": "true",
+		"name": "username",
+		"UserInfo": struct {
+			Name string
+			Role string
+		}{name, role},
+		// set the expire time for JWT token
+		"exp": time.Now().Add(time.Hour * 24).Unix(),
+		//"exp": time.Now().Add(time.Minute * 20).Unix(),
+	})
+
+	tokenString, err := token.SignedString(signKey)
 	if err != nil {
 		return "", err
 	}
