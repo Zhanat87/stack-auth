@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"net/http"
-	common "github.com/Zhanat87/stack-auth/common"
+	"github.com/Zhanat87/stack-auth/common"
 )
 
 func PingHandler(w http.ResponseWriter, r *http.Request) {
