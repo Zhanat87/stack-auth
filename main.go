@@ -1,14 +1,25 @@
 package main
 
 import (
-	"github.com/gorilla/mux"
+	"encoding/json"
+	"fmt"
 	"net/http"
-	"github.com/Zhanat87/stack-auth/controllers"
+	"os"
 )
 
+type EnvVarsModel struct {
+	vars []string `json:"vars"`
+	mongoDbHost string `json:"mongoDbHost"`
+}
+
 func main() {
-	r := mux.NewRouter()
-	r.Handle("/index", controllers.Index).Methods("GET")
-	http.Handle("/", r)
+	http.HandleFunc("/api", func(w http.ResponseWriter, r *http.Request) {
+		output, err := json.Marshal(EnvVarsModel{vars: os.Environ(), mongoDbHost: os.Getenv("STACK_MONGODB_PORT_27017_TCP_ADDR")})
+		if err != nil {
+			fmt.Println("Something went wrong!")
+		}
+		fmt.Fprintf(w, string(output))
+
+	})
 	http.ListenAndServe(":8082", nil)
 }
