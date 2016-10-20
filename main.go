@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"github.com/auth0/go-jwt-middleware"
 	"github.com/codegangsta/negroni"
 	"github.com/dgrijalva/jwt-go"
@@ -9,6 +8,7 @@ import (
 	"net/http"
 	"time"
 	"github.com/Zhanat87/stack-auth/controllers"
+	"github.com/Zhanat87/stack-auth/common"
 )
 
 func main() {
@@ -39,25 +39,6 @@ func StartServer() {
 	http.ListenAndServe(":8082", nil)
 }
 
-type Response struct {
-	Text string `json:"text"`
-}
-
-func respondJson(text string, w http.ResponseWriter) {
-	response := Response{text}
-
-	jsonResponse, err := json.Marshal(response)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(jsonResponse)
-}
-
-
-
 
 // Глобальный секретный ключ
 var mySigningKey = []byte("secret")
@@ -76,5 +57,5 @@ var GetTokenHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Reque
 	tokenString, _ := token.SignedString(mySigningKey)
 
 	// Отдаем токен клиенту
-	respondJson(tokenString, w)
+	common.respondJson(tokenString, w)
 })
