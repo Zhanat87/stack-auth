@@ -84,7 +84,7 @@ func GetNotes(w http.ResponseWriter, r *http.Request) {
 
 // GetNoteByID returns a single Note document by id
 // Handler for HTTP Get - "/notes/{id}"
-func GetNoteByID(w http.ResponseWriter, r *http.Request) {
+func GetNoteById(w http.ResponseWriter, r *http.Request) {
 	// Get id from the incoming url
 	vars := mux.Vars(r)
 	id := vars["id"]
