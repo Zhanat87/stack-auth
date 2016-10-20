@@ -9,7 +9,8 @@ type Response struct {
 	Text string `json:"text"`
 }
 
-func respondJson(text string, w http.ResponseWriter) {
+// need to make function exportable with an uppercase for its name:
+func RespondJson(text string, w http.ResponseWriter) {
 	response := Response{text}
 
 	jsonResponse, err := json.Marshal(response)

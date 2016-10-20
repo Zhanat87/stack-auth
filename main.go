@@ -57,5 +57,5 @@ var GetTokenHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Reque
 	tokenString, _ := token.SignedString(mySigningKey)
 
 	// Отдаем токен клиенту
-	common.respondJson(tokenString, w)
+	common.RespondJson(tokenString, w)
 })
