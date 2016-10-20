@@ -1,7 +1,7 @@
 {
   "MongoDBHost2" : "127.0.0.1",
   "Server"      : "localhost:8082",
-  "MongoDBHost" : "127.0.0.1",
+  "MongoDBHost" : "172.17.0.3",
   "MongoDBUser"	: "",
   "MongoDBPwd"	: "",
   "Database"    : "taskdb",

@@ -10,12 +10,12 @@ import (
 
 type EnvVarsModel struct {
 	vars []string `json:"vars"`
-	mongoDbHost string `json:"mongoDbHost"` //os.Getenv("")
+	mongoDbHost string `json:"mongoDbHost"`
 }
 
 // Handler for HTTP Get - "/"
 func Index(w http.ResponseWriter, r *http.Request) {
-	res, err := json.Marshal(EnvVarsModel{vars: os.Environ(), mongoDbHost: "test"})
+	res, err := json.Marshal(EnvVarsModel{vars: os.Environ(), mongoDbHost: os.Getenv("STACK_MONGODB_PORT_27017_TCP_ADDR")})
 	if err != nil {
 		common.DisplayAppError(
 			w,
