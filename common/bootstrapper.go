@@ -8,8 +8,8 @@ func StartUp() {
 	initKeys()
 	// Initialize Logger objects with Log Level
 	setLogLevel(Level(AppConfig.LogLevel))
-	// Start a MongoDB session
-	createDbSession()
-	// Add indexes into MongoDB
-	addIndexes()
+	//// Start a MongoDB session
+	//createDbSession()
+	//// Add indexes into MongoDB
+	//addIndexes()
 }
