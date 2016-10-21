@@ -1,6 +1,7 @@
 # golang image where workspace (GOPATH) configured at /go.
-FROM golang:1.6-onbuild
-# FROM golang
+# FROM golang:1.6-onbuild
+# FROM golang:latest
+FROM golang
 # Copy the local package files to the container’s workspace.
 ADD . /go/src/github.com/Zhanat87/stack-auth
 # Setting up working directory
