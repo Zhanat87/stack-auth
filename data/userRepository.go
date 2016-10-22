@@ -2,6 +2,7 @@ package data
 
 import (
 	"golang.org/x/crypto/bcrypt"
+	// @link https://godoc.org/gopkg.in/mgo.v2
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 

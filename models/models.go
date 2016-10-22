@@ -3,6 +3,31 @@ import (
 	"time"
 	"gopkg.in/mgo.v2/bson"
 )
+/*
+@link https://golang.org/pkg/encoding/json/
+omitempty - если значение поля отсутствует, то это поле не показывается просто
+
+// Field is ignored by this package.
+Field int `json:"-"`
+
+// Field appears in JSON as key "myName".
+Field int `json:"myName"`
+
+// Field appears in JSON as key "myName" and
+// the field is omitted from the object if its value is empty,
+// as defined above.
+Field int `json:"myName,omitempty"`
+
+// Field appears in JSON as key "Field" (the default), but
+// the field is skipped if empty.
+// Note the leading comma.
+Field int `json:",omitempty"`
+
+The "string" option signals that a field is stored as JSON inside a JSON-encoded string.
+It applies only to fields of string, floating point, integer, or boolean types.
+This extra level of encoding is sometimes used when communicating with JavaScript programs:
+Int64String int64 `json:",string"
+ */
 type (
 	User struct {
 		Id bson.ObjectId `bson:"_id,omitempty" json:"id"`
