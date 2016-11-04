@@ -4,6 +4,10 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/gorilla/mux"
+	"gopkg.in/mgo.v2"
+	"gopkg.in/mgo.v2/bson"
+
 	"github.com/Zhanat87/stack-auth/common"
 	"github.com/Zhanat87/stack-auth/data"
 	"github.com/Zhanat87/stack-auth/models"
@@ -149,9 +153,11 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	userModel := dataResource.Data
-	user := &models.TaskUser{
-		Id:          id,
-		Description: userModel.Description,
+	user := &models.User{
+		Id:        id,
+		FirstName: userModel.FirstName,
+		LastName:  userModel.LastName,
+		Email:     userModel.Email,
 	}
 	context := NewContext()
 	defer context.Close()
