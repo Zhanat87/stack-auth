@@ -167,9 +167,30 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 		common.DisplayAppError(w, err, "An unexpected error has occurred", 500)
 		return
 	}
-	common.DisplaySuccessResponse(
-		w,
-		"user success updated",
-		http.StatusNoContent,
-	)
+	DisplaySuccessResponse(w, "user success updated 2", http.StatusNoContent)
 }
+
+func DisplaySuccessResponse(w http.ResponseWriter, message string, code int) {
+	successResponse := SuccessResponse{
+		Success:    true,
+		Message:    message,
+		HttpStatus: code,
+	}
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	w.WriteHeader(code)
+	if j, err := json.Marshal(dataResource{Data: successResponse}); err == nil {
+		w.Write(j)
+	}
+}
+
+type (
+	dataResource struct {
+		Data SuccessResponse `json:"data"`
+	}
+	// success response
+	SuccessResponse struct {
+		Success    bool   `json:"success"`
+		Message    string `json:"message"`
+		HttpStatus int    `json:"status"`
+	}
+)
