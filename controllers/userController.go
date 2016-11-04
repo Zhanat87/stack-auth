@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 
 	"github.com/Zhanat87/stack-auth/common"
@@ -167,6 +168,57 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 		common.DisplayAppError(w, err, "An unexpected error has occurred", 500)
 		return
 	}
-	// http.StatusNoContent
+	// http.StatusNoContent 204 return empty body forever
 	common.DisplaySuccessResponse(w, "user success updated", http.StatusOK)
+}
+
+// GetUserByID returns a single User document by id
+// Handler for HTTP Get - "/users/{id}"
+func GetUserById(w http.ResponseWriter, r *http.Request) {
+	// Get id from the incoming url
+	vars := mux.Vars(r)
+	id := vars["id"]
+	context := NewContext()
+	defer context.Close()
+	col := context.DbCollection("users")
+	repo := &data.UserRepository{C: col}
+	user, err := repo.GetById(id)
+	if err != nil {
+		if err == mgo.ErrNotFound {
+			w.WriteHeader(http.StatusNoContent)
+			return
+		}
+		common.DisplayAppError(w, err, "An unexpected error has occurred", 500)
+		return
+
+	}
+	j, err := json.Marshal(user)
+	if err != nil {
+		common.DisplayAppError(w, err, "An unexpected error has occurred", 500)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(j)
+}
+
+// DeleteUser deletes an existing User document
+// Handler for HTTP Delete - "/users/{id}"
+func DeleteUser(w http.ResponseWriter, r *http.Request) {
+	// Get id from the incoming url
+	vars := mux.Vars(r)
+	id := vars["id"]
+	context := NewContext()
+	defer context.Close()
+	col := context.DbCollection("users")
+	repo := &data.UserRepository{C: col}
+	//Delete a user document
+	err := repo.Delete(id)
+	if err != nil {
+		common.DisplayAppError(w, err, "An unexpected error has occurred", 500)
+		return
+	}
+	// http.StatusNoContent 204 return empty body forever
+	//w.WriteHeader(http.StatusNoContent)
+	common.DisplaySuccessResponse(w, "user success deleted", http.StatusOK)
 }

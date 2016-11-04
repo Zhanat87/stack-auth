@@ -12,10 +12,9 @@ func SetUserRoutes(router *mux.Router) *mux.Router {
 	
 	userRouter.HandleFunc("/users", controllers.CreateUser).Methods("POST")
 	userRouter.HandleFunc("/users/{id}", controllers.UpdateUser).Methods("PUT")
-	//userRouter.HandleFunc("/users/{id}", controllers.GetUserById).Methods("GET")
+	userRouter.HandleFunc("/users/{id}", controllers.GetUserById).Methods("GET")
 	userRouter.HandleFunc("/users", controllers.GetUsers).Methods("GET")
-	//userRouter.HandleFunc("/users/tasks/{id}", controllers.GetUsersByTask).Methods("GET")
-	//userRouter.HandleFunc("/users/{id}", controllers.DeleteUser).Methods("DELETE")
+	userRouter.HandleFunc("/users/{id}", controllers.DeleteUser).Methods("DELETE")
 	router.PathPrefix("/users").Handler(negroni.New(
 		negroni.HandlerFunc(common.Authorize),
 		negroni.Wrap(userRouter),
