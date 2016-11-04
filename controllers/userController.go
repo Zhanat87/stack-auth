@@ -167,56 +167,6 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 		common.DisplayAppError(w, err, "An unexpected error has occurred", 500)
 		return
 	}
-	//DisplaySuccessResponse(w, "user success updated 2", http.StatusNoContent)
-	successResponse := SuccessResponse{
-		Success:    true,
-		Message:    "user success updated 3",
-		HttpStatus: http.StatusNoContent,
-	}
-	w.Header().Set("Content-Type", "application/json; charset=utf-8")
-	w.WriteHeader(http.StatusNoContent)
-	j, err := json.Marshal(successResponse);
-	if err != nil {
-		common.DisplayAppError(
-			w,
-			err,
-			"An unexpected error has occurred",
-			500,
-		)
-		return
-	}
-	w.Write(j)
+	// http.StatusNoContent
+	common.DisplaySuccessResponse(w, "user success updated", http.StatusOK)
 }
-
-func DisplaySuccessResponse(w http.ResponseWriter, message string, code int) {
-	successResponse := SuccessResponse{
-		Success:    true,
-		Message:    message,
-		HttpStatus: code,
-	}
-	w.Header().Set("Content-Type", "application/json; charset=utf-8")
-	w.WriteHeader(code)
-	j, err := json.Marshal(DataResponse{Data: successResponse});
-	if err != nil {
-		common.DisplayAppError(
-			w,
-			err,
-			"An unexpected error has occurred",
-			500,
-		)
-		return
-	}
-	w.Write(j)
-}
-
-type (
-	DataResponse struct {
-		Data SuccessResponse `json:"data"`
-	}
-	// success response
-	SuccessResponse struct {
-		Success    bool   `json:"success"`
-		Message    string `json:"message"`
-		HttpStatus int    `json:"status"`
-	}
-)
