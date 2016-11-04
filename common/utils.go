@@ -22,7 +22,7 @@ type (
 	}
 
 	dataResource struct {
-		Data appError `json:"data"`
+		Data SuccessResponse `json:"data"`
 	}
 	// success response
 	SuccessResponse struct {
