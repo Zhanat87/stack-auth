@@ -175,7 +175,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(http.StatusNoContent)
-	if j, err := json.Marshal(dataResource{Data: successResponse}); err == nil {
+	if j, err := json.Marshal(DataResponse{Data: successResponse}); err == nil {
 		w.Write(j)
 	}
 }
@@ -188,13 +188,13 @@ func DisplaySuccessResponse(w http.ResponseWriter, message string, code int) {
 	}
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(code)
-	if j, err := json.Marshal(dataResource{Data: successResponse}); err == nil {
+	if j, err := json.Marshal(DataResponse{Data: successResponse}); err == nil {
 		w.Write(j)
 	}
 }
 
 type (
-	dataResource struct {
+	DataResponse struct {
 		Data SuccessResponse `json:"data"`
 	}
 	// success response
