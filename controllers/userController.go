@@ -175,9 +175,17 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(http.StatusNoContent)
-	if j, err := json.Marshal(DataResponse{Data: successResponse}); err == nil {
-		w.Write(j)
+	j, err := json.Marshal(DataResponse{Data: successResponse});
+	if err != nil {
+		common.DisplayAppError(
+			w,
+			err,
+			"An unexpected error has occurred",
+			500,
+		)
+		return
 	}
+	w.Write(j)
 }
 
 func DisplaySuccessResponse(w http.ResponseWriter, message string, code int) {
@@ -188,9 +196,17 @@ func DisplaySuccessResponse(w http.ResponseWriter, message string, code int) {
 	}
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(code)
-	if j, err := json.Marshal(DataResponse{Data: successResponse}); err == nil {
-		w.Write(j)
+	j, err := json.Marshal(DataResponse{Data: successResponse});
+	if err != nil {
+		common.DisplayAppError(
+			w,
+			err,
+			"An unexpected error has occurred",
+			500,
+		)
+		return
 	}
+	w.Write(j)
 }
 
 type (
