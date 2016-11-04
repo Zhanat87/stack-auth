@@ -20,6 +20,16 @@ type (
 		Server, MongoDBHost, DBUser, DBPwd, Database string
 		LogLevel int
 	}
+
+	dataResource struct {
+		Data appError `json:"data"`
+	}
+	// success response
+	SuccessResponse struct {
+		Success    bool   `json:"success"`
+		Message    string `json:"message"`
+		HttpStatus int    `json:"status"`
+	}
 )
 
 func DisplayAppError(w http.ResponseWriter, handlerError error, message string, code int) {
@@ -33,6 +43,19 @@ func DisplayAppError(w http.ResponseWriter, handlerError error, message string, 
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(code)
 	if j, err := json.Marshal(errorResource{Data: errObj}); err == nil {
+		w.Write(j)
+	}
+}
+
+func DisplaySuccessResponse(w http.ResponseWriter, message string, code int) {
+	successResponse := SuccessResponse{
+		Success:    true,
+		Message:    message,
+		HttpStatus: code,
+	}
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	w.WriteHeader(code)
+	if j, err := json.Marshal(dataResource{Data: successResponse}); err == nil {
 		w.Write(j)
 	}
 }

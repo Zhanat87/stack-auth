@@ -168,4 +168,10 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.WriteHeader(http.StatusNoContent)
+	common.DisplaySuccessResponse(
+		w,
+		"user success updated",
+		http.StatusNoContent,
+	)
+	return
 }
