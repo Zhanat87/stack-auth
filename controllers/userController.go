@@ -175,7 +175,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(http.StatusNoContent)
-	j, err := json.Marshal(DataResponse{Data: successResponse});
+	j, err := json.Marshal(DataResponse{Data: *successResponse});
 	if err != nil {
 		common.DisplayAppError(
 			w,
