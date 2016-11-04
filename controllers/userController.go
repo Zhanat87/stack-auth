@@ -172,5 +172,4 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 		"user success updated",
 		http.StatusNoContent,
 	)
-	return
 }
