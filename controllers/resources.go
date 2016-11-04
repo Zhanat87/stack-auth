@@ -14,6 +14,10 @@ type (
 	LoginResource struct {
 		Data LoginModel `json:"data"`
 	}
+	// For Get - /users
+	UsersResource struct {
+		Data []models.User `json:"data"`
+	}
 	//Response for authorized user Post - /user/login
 	AuthUserResource struct {
 		Data AuthUserModel `json:"data"`
