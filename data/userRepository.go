@@ -40,3 +40,13 @@ func (r *UserRepository) Login(user models.User) (u models.User, err error) {
 	}
 	return
 }
+
+func (r *UserRepository) GetAll() []models.User {
+	var users []models.User
+	iter := r.C.Find(nil).Iter()
+	result := models.User{}
+	for iter.Next(&result) {
+		users = append(users, result)
+	}
+	return users
+}

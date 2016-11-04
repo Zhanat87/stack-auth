@@ -116,3 +116,21 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Write(j)
 }
+
+// GetUsers returns all User documents
+// Handler for HTTP Get - "/users"
+func GetUsers(w http.ResponseWriter, r *http.Request) {
+	context := NewContext()
+	defer context.Close()
+	col := context.DbCollection("users")
+	repo := &data.UserRepository{C: col}
+	users := repo.GetAll()
+	j, err := json.Marshal(UsersResource{Data: users})
+	if err != nil {
+		common.DisplayAppError(w, err, "An unexpected error has occurred", 500)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(j)
+}
