@@ -120,7 +120,16 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	col := context.DbCollection("users")
 	repo := &data.UserRepository{C: col}
 	// Insert User document
-	repo.Create(user)
+	saveError := repo.Create(user)
+	if saveError != nil {
+		common.DisplayAppError(
+			w,
+			saveError,
+			"Invalid User data",
+			500,
+		)
+		return
+	}
 	common.DisplaySuccessResponse(w, "user success created", http.StatusCreated)
 }
 
