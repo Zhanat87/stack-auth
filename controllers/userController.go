@@ -167,7 +167,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 		common.DisplayAppError(w, err, "An unexpected error has occurred", 500)
 		return
 	}
-	DisplaySuccessResponse(w, "user success updated 2", http.StatusNoContent)
+	DisplaySuccessResponse(&w, "user success updated 2", http.StatusNoContent)
 }
 
 func DisplaySuccessResponse(w http.ResponseWriter, message string, code int) {
