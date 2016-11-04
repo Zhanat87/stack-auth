@@ -121,21 +121,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	repo := &data.UserRepository{C: col}
 	// Insert User document
 	repo.Create(user)
-	// Clean-up the hashpassword to eliminate it from response JSON
-	user.HashPassword = nil
-	j, err := json.Marshal(UserResource{Data: *user})
-	if err != nil {
-		common.DisplayAppError(
-			w,
-			err,
-			"An unexpected error has occurred",
-			500,
-		)
-		return
-	}
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusCreated)
-	w.Write(j)
+	common.DisplaySuccessResponse(w, "user success created", http.StatusCreated)
 }
 
 
