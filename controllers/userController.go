@@ -9,46 +9,6 @@ import (
 	"github.com/Zhanat87/stack-auth/models"
 )
 
-// Register add a new User document
-// Handler for HTTP Post - "/users/register"
-func Register(w http.ResponseWriter, r *http.Request) {
-	var dataResource UserResource
-	// Decode the incoming User json
-	err := json.NewDecoder(r.Body).Decode(&dataResource)
-	if err != nil {
-		common.DisplayAppError(
-			w,
-			err,
-			"Invalid User data",
-			500,
-		)
-		return
-	}
-	user := &dataResource.Data
-	context := NewContext()
-	defer context.Close()
-	col := context.DbCollection("users")
-	repo := &data.UserRepository{C: col}
-	// Insert User document
-	repo.CreateUser(user)
-	// Clean-up the hashpassword to eliminate it from response JSON
-	user.HashPassword = nil
-	j, err := json.Marshal(UserResource{Data: *user})
-	if err != nil {
-		common.DisplayAppError(
-			w,
-			err,
-			"An unexpected error has occurred",
-			500,
-		)
-		return
-	}
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusCreated)
-	w.Write(j)
-
-}
-
 // Login authenticates the HTTP request with username and apssword
 // Handler for HTTP Post - "/users/login"
 func Login(w http.ResponseWriter, r *http.Request) {
@@ -133,4 +93,74 @@ func GetUsers(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(j)
+}
+
+// Add a new User document
+// Handler for HTTP Post - "/users"
+func CreateUser(w http.ResponseWriter, r *http.Request) {
+	var dataResource UserResource
+	// Decode the incoming User json
+	err := json.NewDecoder(r.Body).Decode(&dataResource)
+	if err != nil {
+		common.DisplayAppError(
+			w,
+			err,
+			"Invalid User data",
+			500,
+		)
+		return
+	}
+	user := &dataResource.Data
+	context := NewContext()
+	defer context.Close()
+	col := context.DbCollection("users")
+	repo := &data.UserRepository{C: col}
+	// Insert User document
+	repo.Create(user)
+	// Clean-up the hashpassword to eliminate it from response JSON
+	user.HashPassword = nil
+	j, err := json.Marshal(UserResource{Data: *user})
+	if err != nil {
+		common.DisplayAppError(
+			w,
+			err,
+			"An unexpected error has occurred",
+			500,
+		)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusCreated)
+	w.Write(j)
+}
+
+
+// UpdateUser updates an existing User document
+// Handler for HTTP Put - "/users/{id}"
+func UpdateUser(w http.ResponseWriter, r *http.Request) {
+	// Get id from the incoming url
+	vars := mux.Vars(r)
+	id := bson.ObjectIdHex(vars["id"])
+	var dataResource UserResource
+	// Decode the incoming User json
+	err := json.NewDecoder(r.Body).Decode(&dataResource)
+	if err != nil {
+		common.DisplayAppError(w, err, "Invalid User data", 500)
+		return
+	}
+	userModel := dataResource.Data
+	user := &models.TaskUser{
+		Id:          id,
+		Description: userModel.Description,
+	}
+	context := NewContext()
+	defer context.Close()
+	col := context.DbCollection("users")
+	repo := &data.UserRepository{C: col}
+	//Update user document
+	if err := repo.Update(user); err != nil {
+		common.DisplayAppError(w, err, "An unexpected error has occurred", 500)
+		return
+	}
+	w.WriteHeader(http.StatusNoContent)
 }

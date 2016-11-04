@@ -22,7 +22,7 @@ func (r *NoteRepository) Create(note *models.TaskNote) error {
 }
 
 func (r *NoteRepository) Update(note *models.TaskNote) error {
-	// partial update on MogoDB
+	// partial update on MongoDB
 	err := r.C.Update(bson.M{"_id": note.Id},
 		bson.M{"$set": bson.M{
 			"description": note.Description,

@@ -13,7 +13,7 @@ type UserRepository struct {
 	C *mgo.Collection
 }
 
-func (r *UserRepository) CreateUser(user *models.User) error {
+func (r *UserRepository) Create(user *models.User) error {
 	obj_id := bson.NewObjectId()
 	user.Id = obj_id
 	hpass, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
@@ -24,6 +24,17 @@ func (r *UserRepository) CreateUser(user *models.User) error {
 	//clear the incoming text password
 	user.Password = ""
 	err = r.C.Insert(&user)
+	return err
+}
+
+func (r *UserRepository) Update(user *models.User) error {
+	// partial update on MongoDB
+	err := r.C.Update(bson.M{"_id": user.Id},
+		bson.M{"$set": bson.M{
+			"firstname": user.FirstName,
+			"lastname": user.LastName,
+			"email": user.Email,
+		}})
 	return err
 }
 

@@ -4,8 +4,18 @@ import (
 	"github.com/Zhanat87/stack-auth/controllers"
 )
 func SetUserRoutes(router *mux.Router) *mux.Router {
-	router.HandleFunc("/users", controllers.GetUsers).Methods("GET")
-	router.HandleFunc("/users/register", controllers.Register).Methods("POST")
-	router.HandleFunc("/users/login", controllers.Login).Methods("POST")
-	return router
+	userRouter := mux.NewRouter()
+	userRouter.HandleFunc("/login", controllers.Login).Methods("POST")
+	
+	userRouter.HandleFunc("/users", controllers.CreateUser).Methods("POST")
+	userRouter.HandleFunc("/users/{id}", controllers.UpdateUser).Methods("PUT")
+	//userRouter.HandleFunc("/users/{id}", controllers.GetUserById).Methods("GET")
+	userRouter.HandleFunc("/users", controllers.GetUsers).Methods("GET")
+	//userRouter.HandleFunc("/users/tasks/{id}", controllers.GetUsersByTask).Methods("GET")
+	//userRouter.HandleFunc("/users/{id}", controllers.DeleteUser).Methods("DELETE")
+	router.PathPrefix("/users").Handler(negroni.New(
+		negroni.HandlerFunc(common.Authorize),
+		negroni.Wrap(userRouter),
+	))
+	return userRouter
 }
