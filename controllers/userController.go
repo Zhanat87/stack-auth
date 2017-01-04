@@ -153,6 +153,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 		FirstName: userModel.FirstName,
 		LastName:  userModel.LastName,
 		Email:     userModel.Email,
+		ChatRoom:  userModel.ChatRoom,
 	}
 	context := NewContext()
 	defer context.Close()

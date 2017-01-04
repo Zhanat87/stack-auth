@@ -34,6 +34,7 @@ func (r *UserRepository) Update(user *models.User) error {
 			"firstname": user.FirstName,
 			"lastname": user.LastName,
 			"email": user.Email,
+			"chatroom": user.ChatRoom,
 		}})
 	return err
 }

@@ -36,6 +36,7 @@ type (
 		Email string `json:"email"`
 		Password string `json:"password,omitempty"`
 		HashPassword []byte `json:"hashpassword,omitempty "`
+		ChatRoom string `json:"chatroom"`
 	}
 	Task struct {
 		Id bson.ObjectId `bson:"_id,omitempty" json:"id"`
