@@ -4,7 +4,7 @@ import (
 	"github.com/Zhanat87/stack-auth/controllers"
 )
 func SetIndexRoutes(router *mux.Router) *mux.Router {
-	noteRouter := mux.NewRouter()
-	noteRouter.HandleFunc("/index", controllers.Index).Methods("GET")
-	return router
+	indexRouter := mux.NewRouter()
+	indexRouter.HandleFunc("/index", controllers.Index).Methods("GET")
+	return indexRouter
 }
