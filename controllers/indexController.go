@@ -36,7 +36,7 @@ func Index(w http.ResponseWriter, r *http.Request) {
 
 // Handler for HTTP Get - "/test"
 func Test(w http.ResponseWriter, r *http.Request) {
-	res, err := json.Marshal(EnvVariablesModel{vars: os.Environ(), a: "b"})
+	res, err := json.Marshal(EnvVariablesModel{vars: os.Environ(), a: "b2"})
 	if err != nil {
 		common.DisplayAppError(
 			w,
