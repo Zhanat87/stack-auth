@@ -15,6 +15,7 @@ type EnvVarsModel struct {
 
 type EnvVariablesModel struct {
 	vars []string `json:"vars"`
+	a string `json:"a"`
 }
 
 // Handler for HTTP Get - "/"
@@ -35,7 +36,7 @@ func Index(w http.ResponseWriter, r *http.Request) {
 
 // Handler for HTTP Get - "/test"
 func Test(w http.ResponseWriter, r *http.Request) {
-	res, err := json.Marshal(EnvVariablesModel{vars: os.Environ()})
+	res, err := json.Marshal(EnvVariablesModel{vars: os.Environ(), a: "b"})
 	if err != nil {
 		common.DisplayAppError(
 			w,
