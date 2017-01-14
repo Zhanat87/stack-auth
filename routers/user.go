@@ -19,5 +19,5 @@ func SetUserRoutes(router *mux.Router) *mux.Router {
 		negroni.HandlerFunc(common.Authorize),
 		negroni.Wrap(userRouter),
 	))
-	return userRouter
+	return router
 }
