@@ -9,6 +9,7 @@ import (
 func SetUserRoutes(router *mux.Router) *mux.Router {
 	userRouter := mux.NewRouter()
 	userRouter.HandleFunc("/login", controllers.Login).Methods("POST")
+	userRouter.HandleFunc("/sign-up", controllers.CreateUser).Methods("POST")
 	
 	userRouter.HandleFunc("/users", controllers.CreateUser).Methods("POST")
 	userRouter.HandleFunc("/users/{id}", controllers.UpdateUser).Methods("PUT")
