@@ -9,24 +9,24 @@ import (
 )
 
 type EnvVarsModel struct {
-	vars []string `json:"vars"`
-	mongoDbHost string `json:"mongoDbHost"`
+	Vars []string `json:"vars"`
+	MongoDbHost string `json:"mongoDbHost"`
 }
 
 type EnvVariablesModel struct {
-	vars []string `json:"vars"`
-	a string `json:"a"`
-	c int `json:"c"`
+	Vars []string `json:"vars"`
+	A string `json:"a"`
+	C int `json:"c"`
 }
 
 type EnvTestModel struct {
-	a string `json:"a"`
-	c int `json:"c"`
+	A string `json:"a"`
+	C int `json:"c"`
 }
 
 // Handler for HTTP Get - "/"
 func Index(w http.ResponseWriter, r *http.Request) {
-	res, err := json.Marshal(EnvVarsModel{vars: os.Environ(), mongoDbHost: os.Getenv("STACK_MONGODB_PORT_27017_TCP_ADDR")})
+	res, err := json.Marshal(EnvVarsModel{Vars: os.Environ(), MongoDbHost: os.Getenv("STACK_MONGODB_PORT_27017_TCP_ADDR")})
 	if err != nil {
 		common.DisplayAppError(
 			w,
@@ -42,7 +42,7 @@ func Index(w http.ResponseWriter, r *http.Request) {
 
 // Handler for HTTP Get - "/test"
 func Test(w http.ResponseWriter, r *http.Request) {
-	res, err := json.Marshal(EnvVariablesModel{vars: os.Environ(), a: "b", c: 123})
+	res, err := json.Marshal(EnvVariablesModel{Vars: os.Environ(), A: "b", C: 123})
 	if err != nil {
 		common.DisplayAppError(
 			w,
@@ -58,7 +58,7 @@ func Test(w http.ResponseWriter, r *http.Request) {
 
 // Handler for HTTP Get - "/test2"
 func Test2(w http.ResponseWriter, r *http.Request) {
-	res, err := json.Marshal(EnvTestModel{a: "b", c: 123})
+	res, err := json.Marshal(EnvTestModel{A: "b", C: 123})
 	if err != nil {
 		common.DisplayAppError(
 			w,
