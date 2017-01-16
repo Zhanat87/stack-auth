@@ -7,10 +7,10 @@ import (
 	"github.com/Zhanat87/stack-auth/controllers"
 )
 func SetUserRoutes(router *mux.Router) *mux.Router {
+	router.HandleFunc("/login", controllers.Login).Methods("POST")
+	router.HandleFunc("/sign-up", controllers.CreateUser).Methods("POST")
+
 	userRouter := mux.NewRouter()
-	userRouter.HandleFunc("/login", controllers.Login).Methods("POST")
-	userRouter.HandleFunc("/sign-up", controllers.CreateUser).Methods("POST")
-	
 	userRouter.HandleFunc("/users", controllers.CreateUser).Methods("POST")
 	userRouter.HandleFunc("/users/{id}", controllers.UpdateUser).Methods("PUT")
 	userRouter.HandleFunc("/users/{id}", controllers.GetUserById).Methods("GET")

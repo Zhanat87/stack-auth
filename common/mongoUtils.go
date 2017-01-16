@@ -14,7 +14,8 @@ func GetSession() *mgo.Session {
 	if session == nil {
 		var err error
 		session, err = mgo.DialWithInfo(&mgo.DialInfo{
-			Addrs:    []string{os.Getenv("STACK_MONGODB_PORT_27017_TCP_ADDR")},
+			Addrs:    []string{os.Getenv("STACK_MONGODB_PORT_27017_TCP_ADDR") + ":" +
+				os.Getenv("STACK_MONGODB_PORT_27017_TCP_PORT")},
 			Username: AppConfig.DBUser,
 			Password: AppConfig.DBPwd,
 			Timeout:  60 * time.Second,
@@ -28,7 +29,8 @@ func GetSession() *mgo.Session {
 func createDbSession() {
 	var err error
 	session, err = mgo.DialWithInfo(&mgo.DialInfo{
-		Addrs:    []string{os.Getenv("STACK_MONGODB_PORT_27017_TCP_ADDR")},
+		Addrs:    []string{os.Getenv("STACK_MONGODB_PORT_27017_TCP_ADDR") + ":" +
+			os.Getenv("STACK_MONGODB_PORT_27017_TCP_PORT")},
 		Username: AppConfig.DBUser,
 		Password: AppConfig.DBPwd,
 		Timeout:  60 * time.Second,
