@@ -6,7 +6,7 @@ import (
 )
 
 func SetIndexRoutes(router *mux.Router) *mux.Router {
-	router.HandleFunc("/index", controllers.Index).Methods("GET")
+	router.HandleFunc("/", controllers.Index).Methods("GET")
 	router.HandleFunc("/test", controllers.Test).Methods("GET")
 	router.HandleFunc("/test2", controllers.Test2).Methods("GET")
 	return router
